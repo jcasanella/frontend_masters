@@ -103,7 +103,7 @@ body {
     font-weight: bold;
   }
   
-  .checkout {
+.checkout {
     background-color: #deb993;
     border: none;
     padding: 10px 30px;
@@ -111,3 +111,56 @@ body {
     border-radius: 100px;
     font-size: 16px;
   }
+
+.totals-table {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+      "subtotal-header subtotal-value"
+      "tax-header tax-value"
+      "total-header total-value";
+    row-gap: 15px;
+  }
+
+.subtotal-header {
+    grid-area: subtotal-header;
+    display: flex;
+    justify-content: center;
+  }
+  
+.subtotal-value {
+    grid-area: subtotal-value;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+.tax-header {
+    grid-area: tax-header;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tax-value {
+    grid-area: tax-value;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.total-header {
+    grid-area: total-header;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.total-value {
+    grid-area: total-value;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
