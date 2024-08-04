@@ -38,6 +38,9 @@ body {
 
 .box-title {
     text-transform: uppercase;
+    color: #885a2d;
+    font-weight: normal;
+    font-size: 16px;
 }
 
 .box {
@@ -48,3 +51,63 @@ body {
     margin-bottom: 20px;
     width: 100%;
 }
+
+.order {
+    grid-area: order;
+  }
+  
+.payment {
+    grid-area: payment;
+}
+  
+.total {
+    grid-area: total;
+}
+
+.items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.item {
+    border-bottom: 2px solid #DDB892;
+    display: grid;
+  
+    padding: 10px 0;
+    
+    grid-template-columns: 1fr 8fr 1fr;
+    grid-template-areas: 
+      "quantity title   price"
+      "quantity options price";
+  
+    row-gap: 8px;
+  
+}
+
+.item:last-child {
+    border-bottom: none;
+  }
+
+.item-quantity {
+    grid-area: quantity;
+}
+
+.item-title {
+    grid-area: title;
+    font-weight: bold;
+  }
+  
+.item-price {
+    grid-area: price;
+    font-weight: bold;
+  }
+  
+  .checkout {
+    background-color: #deb993;
+    border: none;
+    padding: 10px 30px;
+    width: 100%;
+    border-radius: 100px;
+    font-size: 16px;
+  }
