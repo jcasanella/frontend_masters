@@ -110,57 +110,77 @@ body {
     width: 100%;
     border-radius: 100px;
     font-size: 16px;
+    margin-top: 40px;
   }
 
 .totals-table {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 4fr 3fr 3fr 5fr;
     grid-template-areas: 
-      "subtotal-header subtotal-value"
-      "tax-header tax-value"
-      "total-header total-value";
+      "blank-subtotal subtotal-header subtotal-value blank-subtotal2"
+      "blank-subtotal tax-header tax-value blank-subtotal2"
+      "blank-subtotal total-header total-value blank-subtotal2";
     row-gap: 15px;
   }
 
+.blank-subtotal {
+  grid-area: blank-subtotal;  
+}
+
+.blank-subtotal2 {
+  grid-area: blank-subtotal2;  
+}
+
+
 .subtotal-header {
     grid-area: subtotal-header;
-    display: flex;
-    justify-content: center;
   }
   
 .subtotal-value {
     grid-area: subtotal-value;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    text-align: right;
 }
   
 .tax-header {
     grid-area: tax-header;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .tax-value {
     grid-area: tax-value;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    text-align: right;
 }
 
 .total-header {
     grid-area: total-header;
     font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .total-value {
     grid-area: total-value;
     font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    text-align: right;
+}
+
+.user-input {
+  border-radius: 100px;
+  border: 2px #885a2d solid;
+  padding: 8px;
+  width: 100%;
+  font-size: 18px;
+  background-color: #eee1d5;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.user-input-label {
+  position: absolute;
+  left: 25px;
+  top: -7px;
+  font-size: 11px;
+  padding: 0 2px;
+  background-color: #eee1d5;
+  color: #885a2d;
 }
