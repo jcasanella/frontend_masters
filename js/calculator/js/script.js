@@ -2,6 +2,8 @@ const btnOperations = document.querySelectorAll("button.operator-button");
 const btnDigits = document.querySelectorAll("button.standard-button:not(.operator-button)");
 const screenElement = document.querySelector("div.calculator-screen");
 
+const numbers = [];
+
 // Functions to handle the digits
 btnDigits.forEach(but => { 
     const digit = but.innerHTML;
@@ -50,36 +52,67 @@ const addDigit = (elem, digit) => {
 // Functions to handle the operations
 btnOperations.forEach(but => {
     const operator = but.innerHTML;
-    // const screenValue = screenElement.innerHTML; 
 
     switch(operator) {
         case '÷':
             but.addEventListener('click', function() {
-                console.log('Divide');
+                const screenValue = screenElement.innerHTML; 
+                console.log(`Divide ${screenValue}`);
+
+                if (screenValue !== '0') {
+                    numbers.push(screenValue);
+                    numbers.push(operator);
+                    screenElement.innerHTML = '0';
+                }
             });
             break;
 
         case 'x':
             but.addEventListener('click', function() {
+                const screenValue = screenElement.innerHTML; 
                 console.log('Product');
+                
+                if (screenValue !== '0') {
+                    numbers.push(screenValue);
+                    numbers.push(operator);
+                    screenElement.innerHTML = '0';
+                }
             });
             break;
 
         case '-':
             but.addEventListener('click', function() {
+                const screenValue = screenElement.innerHTML; 
                 console.log('Substract');
+                if (screenValue !== '0') {
+                    numbers.push(screenValue);
+                    numbers.push(operator);
+                    screenElement.innerHTML = '0';
+                }
             });
             break;
 
         case '+':
             but.addEventListener('click', function() {
+                const screenValue = screenElement.innerHTML; 
                 console.log('Add');
+                if (screenValue !== '0') {
+                    numbers.push(screenValue);
+                    numbers.push(operator);
+                    screenElement.innerHTML = '0';
+                }
             });
             break;
     
         case '=':
             but.addEventListener('click', function() {
+                const screenValue = screenElement.innerHTML; 
                 console.log('Assign');
+                numbers.push(screenValue);
+                console.log(`Numbers: ${numbers}`);
+                screenElement.innerHTML = '0';
+
+                numbers.length = 0;
             });
             break;            
     }
