@@ -8,29 +8,20 @@ const numbers = [];
 btnDigits.forEach(but => { 
     const digit = but.innerHTML;
     
-    switch(digit) {
-        case 'C':
-            but.addEventListener('click', function() {
-                cleanScreen(screenElement);
-            });
-            break;
-        case '←':
-            but.addEventListener('click', function() {
-                removeDigit(screenElement);
-            });
-            break;
-        default:
-            but.addEventListener('click', function() {                
-                addDigit(screenElement, digit);
-            });
+    if (digit === 'C') {
+        but.addEventListener('click', function() {
+            screenElement.innerHTML = '0';
+        });
+    } else if (digit === '←') {
+        but.addEventListener('click', function() {
+            removeDigit(screenElement);
+        });
+    } else {
+        but.addEventListener('click', function() {                
+            addDigit(screenElement, digit);
+        });
     }
 });
-
-const cleanScreen = (elem) => {
-    if (elem) {
-        elem.innerHTML = '0';
-    }
-};
 
 const removeDigit = (elem) => {
     if (elem) {
@@ -53,67 +44,58 @@ const addDigit = (elem, digit) => {
 btnOperations.forEach(but => {
     const operator = but.innerHTML;
 
-    switch(operator) {
-        case '÷':
-            but.addEventListener('click', function() {
-                const screenValue = screenElement.innerHTML; 
-                console.log(`Divide ${screenValue}`);
+    if (['÷', 'x', '-', '+'].includes(operator)) {
+        but.addEventListener('click', function() {
+            const screenValue = screenElement.innerHTML; 
 
-                if (screenValue !== '0') {
-                    numbers.push(screenValue);
-                    numbers.push(operator);
-                    screenElement.innerHTML = '0';
-                }
-            });
-            break;
-
-        case 'x':
-            but.addEventListener('click', function() {
-                const screenValue = screenElement.innerHTML; 
-                console.log('Product');
-                
-                if (screenValue !== '0') {
-                    numbers.push(screenValue);
-                    numbers.push(operator);
-                    screenElement.innerHTML = '0';
-                }
-            });
-            break;
-
-        case '-':
-            but.addEventListener('click', function() {
-                const screenValue = screenElement.innerHTML; 
-                console.log('Substract');
-                if (screenValue !== '0') {
-                    numbers.push(screenValue);
-                    numbers.push(operator);
-                    screenElement.innerHTML = '0';
-                }
-            });
-            break;
-
-        case '+':
-            but.addEventListener('click', function() {
-                const screenValue = screenElement.innerHTML; 
-                console.log('Add');
-                if (screenValue !== '0') {
-                    numbers.push(screenValue);
-                    numbers.push(operator);
-                    screenElement.innerHTML = '0';
-                }
-            });
-            break;
-    
-        case '=':
-            but.addEventListener('click', function() {
-                const screenValue = screenElement.innerHTML; 
-                console.log('Assign');
+            if (screenValue !== '0') {
                 numbers.push(screenValue);
-                console.log(`Numbers: ${numbers}`);
+                numbers.push(operator);
                 screenElement.innerHTML = '0';
+            }
+        });
+    } else {    // equal/assign button
+        but.addEventListener('click', function() {
+            const screenValue = screenElement.innerHTML; 
+            numbers.push(screenValue);
 
-                numbers.length = 0;
-            });
-            break;            
+            let operator1;
+            let total = 0;
+            let operation;
+            for (let value of numbers) {
+                console.log(`Value: ${value}`);
+
+                if (!isNaN(value)) {
+                    if (!operator1) {
+                        operator1 = parseInt(value);
+                        console.log(`Operator1: ${operator1}`);
+                    }
+
+                    switch(operation) {
+                        case 'x':
+                            total = parseInt(value) * operator1;
+                            break;
+                        case '+':
+                            total = parseInt(value) + operator1;
+                            break;
+                        case '-':
+                            total = parseInt(value) - operator1;
+                            break;
+                        case '÷':
+                            total = parseInt(value) / operator1;
+                            break;
+                    }
+                } else {
+                    operation = value;
+                }
+            }
+            console.log(`Numbers: ${total}`);
+            screenElement.innerHTML = total;
+
+            operator1 = undefined;
+            operation = undefined;
+
+            numbers.length = 0;
+        });
     }
 });
