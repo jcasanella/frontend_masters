@@ -2,6 +2,11 @@ const btnOperations = document.querySelectorAll("button.operator-button");
 const btnDigits = document.querySelectorAll("button.standard-button:not(.operator-button)");
 const screenElement = document.querySelector("div.calculator-screen");
 
+const test = document.querySelector(".buttons");
+test.addEventListener("click", function(event) {
+    console.log(`Test: ${event.target.innerText}`)
+});
+
 const numbers = [];
 
 // Functions to handle the digits
