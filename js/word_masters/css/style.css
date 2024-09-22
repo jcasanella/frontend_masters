@@ -17,6 +17,11 @@ h1 {
     font-weight: 900;
 }
 
+hr {
+    border-top: 2px solid black;
+    margin-top: 35px;
+}
+
 .wrapper {
     display: grid;
     width: 320px;
@@ -24,6 +29,10 @@ h1 {
     top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
+    grid-template-columns: repeat(5, 45px);
+    grid-template-rows: repeat(6, 45px);
+    column-gap: 13px;
+    row-gap: 10px;
     grid-template-areas: 
         "c1 c2 c3 c4 c5" 
         "c6 c7 c8 c9 c10" 
@@ -35,7 +44,5 @@ h1 {
 
 .cell {
     border-style: solid;
-    width: 45px;
-    height: 45px;
     border-color: rgb(212, 211, 211);
 }
