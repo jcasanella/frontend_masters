@@ -25,43 +25,12 @@ h1 {
     left: 50%;
     transform: translate(-50%, -50%);
     grid-template-areas: 
-        "row-1" 
-        "row-2"
-        "row-3"
-        "row-4"
-        "row-5"
-        "row-6"
-}
-
-.row {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;    
-    padding-bottom: 10px;
-    padding-right: 20px;
-}
-
-#row-1 {
-    grid-area: row-1;
-}
-
-#row-2 {
-    grid-area: row-2;
-}
-
-#row-3 {
-    grid-area: row-3;
-}
-
-#row-4 {
-    grid-area: row-4;
-}
-
-#row-5 {
-    grid-area: row-5;
-}
-
-#row-6 {
-    grid-area: row-6;
+        "c1 c2 c3 c4 c5" 
+        "c6 c7 c8 c9 c10" 
+        "c11 c12 c13 c14 c15"
+        "c16 c17 c18 c19 c20"
+        "c21 c22 c23 c24 c25"
+        "c26 c27 c28 c29 c30"
 }
 
 .cell {
