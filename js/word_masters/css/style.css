@@ -6,6 +6,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: white;
+    overflow: hidden;
 }
 
 header {
@@ -23,6 +24,7 @@ hr {
 }
 
 .wrapper {
+    margin:50px;
     display: grid;
     width: 320px;
     position: absolute;
@@ -49,8 +51,25 @@ hr {
     font-size: 35px;
     text-align: center;
     text-transform: capitalize;
+    cursor: text;
 }
 
 .cell:focus {
     cursor: text;
+}
+
+.spiral {
+    animation: loader 1.25s infinite;
+    font-weight: bold;
+    font-size: 36pt;
+    text-align: center;
+}
+
+@keyframes loader {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
