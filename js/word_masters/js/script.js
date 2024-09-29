@@ -13,6 +13,21 @@ const isValidRow = (elem) => {
     return true;
 };
 
+// Check if Row is fully filled
+const isFullRowFilled = () => {
+    const maxCell = (attempts + 1) * 5;
+
+    for (let minCell = maxCell - 5 + 1; minCell <= maxCell; minCell++) {
+        const cellClass = `c${minCell}`;
+        const cellElem = document.querySelector(`.${cellClass}`);
+
+        if (!cellElem.innerText)
+            return false;
+    }
+
+    return true;
+};
+
 const isLetter = (letter) => {
     return /^[a-zA-Z]$/.test(letter);
 };
@@ -31,6 +46,12 @@ const enterCharacter = (elem, event) => {
         elem.innerText = '';
     } else if(isLetter(charac)) {
         elem.innerText = event.key;
+    } else if(charac === 'Enter') {
+        const rowFilled = isFullRowFilled();
+        if (rowFilled) {
+            attempts++;
+        }
+        console.log(`rowFilled: ${rowFilled}`);
     } else {
         event.preventDefault();
     }    
@@ -70,6 +91,29 @@ const  getWordOfDay = async () => {
 
         const { word } = json;
         console.log(`Word: ${word}`);
+    } catch(error) {
+        console.error(error.message);
+    }
+};
+
+// Check if it's a valid word
+const isValidWord = async (word) => {
+    const url = 'https://words.dev-apis.com/validate-word';
+    try {
+        const response = await fetch(url, { 
+            method: 'POST', 
+            body: JSON.stringify(),
+            headers: {
+                "Content-Type": "application/json",
+            }
+        });
+
+        if (!response.ok) {
+            throw Error(`Response status: ${response.status}`);
+        }
+
+        const json = await response.json();
+        console.log(`Response: ${JSON.stringify(json)}`);
     } catch(error) {
         console.error(error.message);
     }
