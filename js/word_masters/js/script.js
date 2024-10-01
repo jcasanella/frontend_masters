@@ -1,6 +1,9 @@
 // global variables
 let attempts = 0;
 
+const URL_VALIDATE_WORD = 'https://words.dev-apis.com/validate-word';
+const URL_WORD_OF_THE_DAY = 'https://words.dev-apis.com/word-of-the-day';
+
 // Check if the cell focus is in a valid row
 const isValidRow = (elem) => {
     const validRow = `r${attempts + 1}`;
@@ -32,8 +35,23 @@ const isLetter = (letter) => {
     return /^[a-zA-Z]$/.test(letter);
 };
 
+// Iterate across the row to build the word
+const buildWord = () => {
+    const maxCell = (attempts + 1) * 5;
+    let word = '';
+
+    for (let minCell = maxCell - 5 + 1; minCell <= maxCell; minCell++) {
+        const cellClass = `c${minCell}`;
+        const cellElem = document.querySelector(`.${cellClass}`);
+
+        word += cellElem.innerText;
+    }
+
+    return word;
+};
+
 // Get a character and validates if it's valid
-const enterCharacter = (elem, event) => {
+const enterCharacter = async (elem, event) => {
     console.log(`Event: key ${event.key}`);
 
     // If not valid row, dont allow to edit
@@ -49,6 +67,7 @@ const enterCharacter = (elem, event) => {
     } else if(charac === 'Enter') {
         const rowFilled = isFullRowFilled();
         if (rowFilled) {
+            await isValidWord(buildWord);
             attempts++;
         }
         console.log(`rowFilled: ${rowFilled}`);
@@ -96,13 +115,17 @@ const  getWordOfDay = async () => {
     }
 };
 
+function Word(word) {
+    this.word = word;
+}
+
 // Check if it's a valid word
-const isValidWord = async (word) => {
+const isValidWord = async (wordFn) => {
     const url = 'https://words.dev-apis.com/validate-word';
     try {
         const response = await fetch(url, { 
             method: 'POST', 
-            body: JSON.stringify(),
+            body: JSON.stringify(new Word(wordFn())),
             headers: {
                 "Content-Type": "application/json",
             }
@@ -114,6 +137,22 @@ const isValidWord = async (word) => {
 
         const json = await response.json();
         console.log(`Response: ${JSON.stringify(json)}`);
+    } catch(error) {
+        console.error(error.message);
+    }
+};
+
+const fetchData = async (url, requestInitFn) => {
+    try {
+        const response = await fetch(url, requestInitFn());
+        if (!response.ok) {
+            throw Error(`Response status: ${response.status}`);
+        }
+
+        const json = await response.json();
+        console.log(`Response: ${JSON.stringify(json)}`);
+
+        return json;
     } catch(error) {
         console.error(error.message);
     }
