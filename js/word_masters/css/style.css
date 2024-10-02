@@ -51,11 +51,10 @@ hr {
     font-size: 35px;
     text-align: center;
     text-transform: capitalize;
-    cursor: text;
 }
 
-.cell:focus {
-    cursor: text;
+.cell-red {
+    border-color: red;
 }
 
 .spiral {

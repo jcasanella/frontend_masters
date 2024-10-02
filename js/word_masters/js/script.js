@@ -1,8 +1,29 @@
 // global variables
 let attempts = 0;
 
+// URL constants
 const URL_VALIDATE_WORD = 'https://words.dev-apis.com/validate-word';
 const URL_WORD_OF_THE_DAY = 'https://words.dev-apis.com/word-of-the-day';
+
+let guessWord;
+
+// Fetch data, the URL to connect
+const fetchData = async (url, requestInitFn, params) => {
+    try {
+        const requestInit = (typeof requestInitFn === 'function') ? requestInitFn(params) : {};
+        const response = await fetch(url, requestInit);
+        if (!response.ok) {
+            throw Error(`Response status: ${response.status}`);
+        }
+
+        const json = await response.json();
+        console.log(`Response: ${JSON.stringify(json)}`);
+
+        return json;
+    } catch(error) {
+        console.error(error.message);
+    }
+};
 
 // Check if the cell focus is in a valid row
 const isValidRow = (elem) => {
@@ -31,6 +52,22 @@ const isFullRowFilled = () => {
     return true;
 };
 
+// Change Cell Border
+const cellAddRedBorder = (addRed) => {
+    const maxCell = (attempts + 1) * 5;
+
+    for (let minCell = maxCell - 5 + 1; minCell <= maxCell; minCell++) {
+        const cellClass = `c${minCell}`;
+        const cellElem = document.querySelector(`.${cellClass}`);
+
+        if (addRed) {
+            cellElem.classList.add('cell-red');
+        } else {
+            cellElem.classList.remove('cell-red');    
+        }
+    }
+};
+
 const isLetter = (letter) => {
     return /^[a-zA-Z]$/.test(letter);
 };
@@ -54,6 +91,8 @@ const buildWord = () => {
 const enterCharacter = async (elem, event) => {
     console.log(`Event: key ${event.key}`);
 
+    cellAddRedBorder(false);
+
     // If not valid row, dont allow to edit
     if (!isValidRow(elem)) {
         return;
@@ -67,8 +106,14 @@ const enterCharacter = async (elem, event) => {
     } else if(charac === 'Enter') {
         const rowFilled = isFullRowFilled();
         if (rowFilled) {
-            await isValidWord(buildWord);
-            attempts++;
+            const word = buildWord();
+            const response = await fetchData(URL_VALIDATE_WORD, requestInit, word);
+            if (response.validWord) {
+                console.log(`Check which lines are ok`);
+                attempts++;
+            } else {
+                cellAddRedBorder(true);
+            }
         }
         console.log(`rowFilled: ${rowFilled}`);
     } else {
@@ -96,71 +141,24 @@ const hideSpiralAfterTimeout = () => {
     }, 5000);
 };
 
-// Get word of the day
-const  getWordOfDay = async () => {
-    const url = 'https://words.dev-apis.com/word-of-the-day';
-    try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw Error(`Response status: ${response.status}`);
-        }
-
-        const json = await response.json();
-        console.log(`Response: ${JSON.stringify(json)}`);
-
-        const { word } = json;
-        console.log(`Word: ${word}`);
-    } catch(error) {
-        console.error(error.message);
-    }
-};
-
 function Word(word) {
     this.word = word;
 }
 
-// Check if it's a valid word
-const isValidWord = async (wordFn) => {
-    const url = 'https://words.dev-apis.com/validate-word';
-    try {
-        const response = await fetch(url, { 
-            method: 'POST', 
-            body: JSON.stringify(new Word(wordFn())),
-            headers: {
-                "Content-Type": "application/json",
-            }
-        });
-
-        if (!response.ok) {
-            throw Error(`Response status: ${response.status}`);
+const requestInit = (word) => {
+    return {
+        method: 'POST', 
+        body: JSON.stringify(new Word(word)),
+        headers: {
+            "Content-Type": "application/json",
         }
-
-        const json = await response.json();
-        console.log(`Response: ${JSON.stringify(json)}`);
-    } catch(error) {
-        console.error(error.message);
-    }
-};
-
-const fetchData = async (url, requestInitFn) => {
-    try {
-        const response = await fetch(url, requestInitFn());
-        if (!response.ok) {
-            throw Error(`Response status: ${response.status}`);
-        }
-
-        const json = await response.json();
-        console.log(`Response: ${JSON.stringify(json)}`);
-
-        return json;
-    } catch(error) {
-        console.error(error.message);
-    }
+    };
 };
 
 // Initialize all on page load
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     initializeCells();
     hideSpiralAfterTimeout();
-    getWordOfDay();
+
+    guessWord = await fetchData(URL_WORD_OF_THE_DAY);
 });
