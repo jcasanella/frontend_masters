@@ -27,90 +27,59 @@ const fetchData = async (url, requestInitFn, params) => {
 
 // Check if the cell focus is in a valid row
 const isValidRow = (elem) => {
-    const validRow = `r${attempts + 1}`;
-    const classesElement = elem.className.split(' ');
-    if (!classesElement.find((c) => c === validRow)) {
-        console.log(`Class: ${elem.className}`);
-        return false;
-    }
-
-    return true;
+    const validRow = `r${attempts}`;
+    const classNames = elem.classList;
+    return classNames.values().some((c) => c === validRow);
 };
 
 // Check if Row is fully filled
 const isFullRowFilled = () => {
-    const maxCell = (attempts + 1) * 5;
+    const cellClass = `r${attempts}`;
+    const cells = document.querySelectorAll(`.${cellClass}`);
 
-    for (let minCell = maxCell - 5 + 1; minCell <= maxCell; minCell++) {
-        const cellClass = `c${minCell}`;
-        const cellElem = document.querySelector(`.${cellClass}`);
+    const c = [...cells].reduce((acc, curValue) => curValue.innerText ? 
+        { isFull: acc.isFull && true, word: acc.word + curValue.innerText} : { isFull: false, word: null}, 
+        { isFull: true, word: ''});
 
-        if (!cellElem.innerText)
-            return false;
-    }
-
-    return true;
+    return c;
 };
 
 // Change Cell Border
-const cellAddRedBorder = (addRed) => {
-    const maxCell = (attempts + 1) * 5;
-
-    for (let minCell = maxCell - 5 + 1; minCell <= maxCell; minCell++) {
-        const cellClass = `c${minCell}`;
-        const cellElem = document.querySelector(`.${cellClass}`);
-
-        if (addRed) {
-            cellElem.classList.add('cell-red');
-        } else {
-            cellElem.classList.remove('cell-red');    
-        }
-    }
+const rowAddRedBorder = (addRed) => {
+    const cellClass = `r${attempts}`;
+    const rowElems = document.querySelectorAll(`.${cellClass}`);
+    [...rowElems].forEach((c) => addRed ? c.classList.add('cell-red') : c.classList.remove('cell-red'));
 };
 
 const isLetter = (letter) => {
     return /^[a-zA-Z]$/.test(letter);
 };
 
-// Iterate across the row to build the word
-const buildWord = () => {
-    const maxCell = (attempts + 1) * 5;
-    let word = '';
-
-    for (let minCell = maxCell - 5 + 1; minCell <= maxCell; minCell++) {
-        const cellClass = `c${minCell}`;
-        const cellElem = document.querySelector(`.${cellClass}`);
-
-        word += cellElem.innerText;
-    }
-
-    return word;
-};
-
+// Compare words and apply cell style depending matches
 const compareWords = (response, guessWord) => {
-    const result = [];
-    const maxCell = (attempts + 1) * 5;
-    let minCell = maxCell - 5 + 1;
+    const responseWordUpper = response.toUpperCase();
+    const guessWordUpper = guessWord.toUpperCase();
 
-    for (let idx = 0; idx < guessWord.length; idx++) {
-        minCell += idx;
-        result.push(response[idx].toUpperCase() === guessWord[idx].toUpperCase());
+    const row = `r${attempts}`;
+    const cells = document.querySelectorAll(`.${row}`);
+    const arrayCells = [...cells];
 
-        if (response[idx].toUpperCase() === guessWord[idx].toUpperCase()) {
-            const cellClass = `c${minCell}`;
-            const cellElem = document.querySelector(`.${cellClass}`);
-            cellElem.classList.add('cell-green');
+    for (let idx = 0; idx < guessWordUpper.length; idx++) {
+        if (responseWordUpper[idx] === guessWordUpper[idx]) {
+            arrayCells[idx].classList.add('cell-green');
+        } else {
+            arrayCells[idx].classList.add('cell-grey');
         }
     }
 
-    return result;
+    return responseWordUpper !== guessWordUpper;
 };
 
 // Get a character and validates if it's valid
 const enterCharacter = async (elem, event) => {
     console.log(`Event: key ${event.key}`);
 
-    cellAddRedBorder(false);
+    rowAddRedBorder(false);
 
     // If not valid row, dont allow to edit
     if (!isValidRow(elem)) {
@@ -123,19 +92,18 @@ const enterCharacter = async (elem, event) => {
     } else if(isLetter(charac)) {
         elem.innerText = event.key;
     } else if(charac === 'Enter') {
-        const rowFilled = isFullRowFilled();
-        if (rowFilled) {
-            const word = buildWord();
+        const { isFull, word } = isFullRowFilled();
+        console.log(`rowFilled: ${isFull} word: ${word}`);
+        if (isFull) {
             const response = await fetchData(URL_VALIDATE_WORD, requestInit, word);
             if (response.validWord) {
                 const validatedChars = compareWords(word, guessWord.word);
                 console.log(`Check which lines are ok ${validatedChars}`);
                 attempts++;
             } else {
-                cellAddRedBorder(true);
+                rowAddRedBorder(true);
             }
         }
-        console.log(`rowFilled: ${rowFilled}`);
     } else {
         event.preventDefault();
     }    
@@ -161,14 +129,10 @@ const hideSpiralAfterTimeout = () => {
     }, 5000);
 };
 
-function Word(word) {
-    this.word = word;
-}
-
 const requestInit = (word) => {
     return {
         method: 'POST', 
-        body: JSON.stringify(new Word(word)),
+        body: JSON.stringify({ word: `${word}` }),
         headers: {
             "Content-Type": "application/json",
         }

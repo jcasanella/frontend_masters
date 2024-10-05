@@ -59,6 +59,12 @@ hr {
 
 .cell-green {
     background-color: green;
+    color: gainsboro;
+}
+
+.cell-grey {
+    background-color: rgb(66, 65, 65);
+    color: gainsboro;
 }
 
 .spiral {
