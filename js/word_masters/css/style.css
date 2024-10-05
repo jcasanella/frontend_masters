@@ -57,6 +57,10 @@ hr {
     border-color: red;
 }
 
+.cell-green {
+    background-color: green;
+}
+
 .spiral {
     animation: loader 1.25s infinite;
     font-weight: bold;

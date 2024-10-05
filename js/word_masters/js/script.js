@@ -87,6 +87,25 @@ const buildWord = () => {
     return word;
 };
 
+const compareWords = (response, guessWord) => {
+    const result = [];
+    const maxCell = (attempts + 1) * 5;
+    let minCell = maxCell - 5 + 1;
+
+    for (let idx = 0; idx < guessWord.length; idx++) {
+        minCell += idx;
+        result.push(response[idx].toUpperCase() === guessWord[idx].toUpperCase());
+
+        if (response[idx].toUpperCase() === guessWord[idx].toUpperCase()) {
+            const cellClass = `c${minCell}`;
+            const cellElem = document.querySelector(`.${cellClass}`);
+            cellElem.classList.add('cell-green');
+        }
+    }
+
+    return result;
+};
+
 // Get a character and validates if it's valid
 const enterCharacter = async (elem, event) => {
     console.log(`Event: key ${event.key}`);
@@ -109,7 +128,8 @@ const enterCharacter = async (elem, event) => {
             const word = buildWord();
             const response = await fetchData(URL_VALIDATE_WORD, requestInit, word);
             if (response.validWord) {
-                console.log(`Check which lines are ok`);
+                const validatedChars = compareWords(word, guessWord.word);
+                console.log(`Check which lines are ok ${validatedChars}`);
                 attempts++;
             } else {
                 cellAddRedBorder(true);
