@@ -105,8 +105,8 @@ const enterCharacter = async (elem, event) => {
                 const dialog = document.querySelector(".dialog-wrapper");
                 dialog.style.display = "block";
 
-                const mainScreen = document.querySelector(".wrapper");
-                mainScreen.style.display = "none";
+                // const mainScreen = document.querySelector(".wrapper");
+                // mainScreen.style.display = "none";
 
                 attempts++;
             } else {
