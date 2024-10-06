@@ -67,11 +67,73 @@ hr {
     color: gainsboro;
 }
 
+.cell-yellow {
+    background-color: rgb(229, 229, 88);
+    color: gainsboro;
+}
+
 .spiral {
     animation: loader 1.25s infinite;
     font-weight: bold;
     font-size: 36pt;
     text-align: center;
+}
+
+.dialog-wrapper {
+    width: 400px;
+    display: none; /* Hidden by default */
+    /* position: fixed; Stay in place */
+    z-index: 1; /* Sit on top */
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.dialog-title {
+    background: rgb(58,123,226);
+    background: linear-gradient(90deg, rgba(58,123,226,1) 47%, rgba(40,44,107,1) 100%);
+    border-top-left-radius: 20px 20px;
+    border-top-right-radius: 20px 20px;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    text-align: center;
+}
+
+.dialog-body {
+    font-weight: 900;
+    font-size: larger;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    margin-top: -20px;
+    height: 100px;
+}
+
+.dialog-footer {
+    border-color: black;
+    background: rgb(58,123,226);
+    background: linear-gradient(90deg, rgba(58,123,226,1) 47%, rgba(40,44,107,1) 100%);
+    border-bottom-left-radius: 20px 20px;
+    border-bottom-right-radius: 20px 20px;
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    padding: 10px;
+}
+
+.dialog-footer > button {
+    border-radius: 10px;
+}
+
+.dialog-footer > button:hover {
+    cursor: pointer;
+}
+
+.dialog-title > h2 {
+    color: white;
+    font-weight: 900;
 }
 
 @keyframes loader {

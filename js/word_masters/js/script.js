@@ -67,6 +67,8 @@ const compareWords = (response, guessWord) => {
     for (let idx = 0; idx < guessWordUpper.length; idx++) {
         if (responseWordUpper[idx] === guessWordUpper[idx]) {
             arrayCells[idx].classList.add('cell-green');
+        } else if (guessWordUpper.includes(responseWordUpper[idx])) {
+            arrayCells[idx].classList.add('cell-yellow');
         } else {
             arrayCells[idx].classList.add('cell-grey');
         }
@@ -99,6 +101,13 @@ const enterCharacter = async (elem, event) => {
             if (response.validWord) {
                 const validatedChars = compareWords(word, guessWord.word);
                 console.log(`Check which lines are ok ${validatedChars}`);
+
+                const dialog = document.querySelector(".dialog-wrapper");
+                dialog.style.display = "block";
+
+                const mainScreen = document.querySelector(".wrapper");
+                mainScreen.style.display = "none";
+
                 attempts++;
             } else {
                 rowAddRedBorder(true);
