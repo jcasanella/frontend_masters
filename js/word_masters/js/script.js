@@ -102,11 +102,12 @@ const enterCharacter = async (elem, event) => {
                 const validatedChars = compareWords(word, guessWord.word);
                 console.log(`Check which lines are ok ${validatedChars}`);
 
-                const dialog = document.querySelector(".dialog-wrapper");
-                dialog.style.display = "block";
 
-                // const mainScreen = document.querySelector(".wrapper");
-                // mainScreen.style.display = "none";
+                const dialogElem = document.getElementById("dialog");
+                dialogElem.showModal();
+
+                const dialogTest = document.querySelector(".dialog-body-text");
+                dialogTest.innerText = 'This is a test from JS';
 
                 attempts++;
             } else {
@@ -124,6 +125,15 @@ const initializeCells = () => {
     cells.forEach((cell) => {
         cell.setAttribute('tabindex', '0');
         cell.addEventListener("keydown", (evt) => enterCharacter(cell, evt));
+    });
+};
+
+// Listener for close btn dialog
+const listenerDialog = () => {
+    const dialogElem = document.getElementById("dialog");
+    const closeBtn = document.querySelector(".dialog-close");
+    closeBtn.addEventListener("click", () => {
+        dialogElem.close();
     });
 };
 
@@ -152,6 +162,7 @@ const requestInit = (word) => {
 document.addEventListener('DOMContentLoaded', async () => {
     initializeCells();
     hideSpiralAfterTimeout();
+    listenerDialog();
 
     guessWord = await fetchData(URL_WORD_OF_THE_DAY);
 });
