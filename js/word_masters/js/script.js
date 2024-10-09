@@ -64,11 +64,17 @@ const compareWords = (response, guessWord) => {
     const cells = document.querySelectorAll(`.${row}`);
     const arrayCells = [...cells];
 
+    const containsLetter = {};
     for (let idx = 0; idx < guessWordUpper.length; idx++) {
         if (responseWordUpper[idx] === guessWordUpper[idx]) {
             arrayCells[idx].classList.add('cell-green');
         } else if (guessWordUpper.includes(responseWordUpper[idx])) {
-            arrayCells[idx].classList.add('cell-yellow');
+            if (!containsLetter.hasOwnProperty(guessWordUpper[idx])) {
+                arrayCells[idx].classList.add('cell-yellow');
+            } else {
+                const value = guessWordUpper[idx];
+                containsLetter[value] = value;
+            }
         } else {
             arrayCells[idx].classList.add('cell-grey');
         }
@@ -76,6 +82,14 @@ const compareWords = (response, guessWord) => {
 
     return responseWordUpper !== guessWordUpper;
 };
+
+const showDialog = (msg) => {
+    const dialogElem = document.getElementById("dialog");
+    dialogElem.showModal();
+
+    const dialogTest = document.querySelector(".dialog-body-text");
+    dialogTest.innerText = msg;
+}
 
 // Get a character and validates if it's valid
 const enterCharacter = async (elem, event) => {
@@ -99,17 +113,16 @@ const enterCharacter = async (elem, event) => {
         if (isFull) {
             const response = await fetchData(URL_VALIDATE_WORD, requestInit, word);
             if (response.validWord) {
-                const validatedChars = compareWords(word, guessWord.word);
-                console.log(`Check which lines are ok ${validatedChars}`);
+                const isSameWord = compareWords(word, guessWord.word);
 
-
-                const dialogElem = document.getElementById("dialog");
-                dialogElem.showModal();
-
-                const dialogTest = document.querySelector(".dialog-body-text");
-                dialogTest.innerText = 'This is a test from JS';
-
-                attempts++;
+                if (isSameWord) {
+                    showDialog('Well done!!! You get the word.');
+                    attempts = 10;  // To block the process and no accept more changes
+                } else if (attempts === 5) {
+                    showDialog('Next time, you will do it better.');
+                } else {
+                    attempts++;
+                }
             } else {
                 rowAddRedBorder(true);
             }
