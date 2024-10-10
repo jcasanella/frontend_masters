@@ -5,6 +5,8 @@ let attempts = 0;
 const URL_VALIDATE_WORD = 'https://words.dev-apis.com/validate-word';
 const URL_WORD_OF_THE_DAY = 'https://words.dev-apis.com/word-of-the-day';
 
+const ATTEMPTS_END_GAME = 10;
+
 let guessWord;
 
 // Fetch data, the URL to connect
@@ -80,7 +82,7 @@ const compareWords = (response, guessWord) => {
         }
     }
 
-    return responseWordUpper !== guessWordUpper;
+    return responseWordUpper === guessWordUpper;
 };
 
 const showDialog = (msg) => {
@@ -111,15 +113,20 @@ const enterCharacter = async (elem, event) => {
         const { isFull, word } = isFullRowFilled();
         console.log(`rowFilled: ${isFull} word: ${word}`);
         if (isFull) {
+            const elemSpiral = document.querySelector(".wrapper_spiral");
+            elemSpiral.style.display = 'block';
+            hideSpiralAfterTimeout(1000);
+            
             const response = await fetchData(URL_VALIDATE_WORD, requestInit, word);
             if (response.validWord) {
                 const isSameWord = compareWords(word, guessWord.word);
 
                 if (isSameWord) {
                     showDialog('Well done!!! You get the word.');
-                    attempts = 10;  // To block the process and no accept more changes
+                    attempts = ATTEMPTS_END_GAME;  // To block the process and no accept more changes
                 } else if (attempts === 5) {
                     showDialog('Next time, you will do it better.');
+                    attempts = ATTEMPTS_END_GAME; // TO block the process and no accept more changes
                 } else {
                     attempts++;
                 }
@@ -154,11 +161,11 @@ const listenerDialog = () => {
 const delay = (time) =>  new Promise(resolve => setTimeout(resolve, time));
 
 // Hide Spiral After 5 Seconds
-const hideSpiralAfterTimeout = () => {
+const hideSpiralAfterTimeout = (ms=5000) => {
     setTimeout(() => {
         const elemSpiral = document.querySelector(".wrapper_spiral");
         elemSpiral.style.display = 'none';
-    }, 5000);
+    }, ms);
 };
 
 const requestInit = (word) => {
