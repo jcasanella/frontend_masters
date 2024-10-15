@@ -12,8 +12,14 @@
     --sans: Oxygen, sans-serif;
 }
 
-* {
+html {
     box-sizing: border-box;
+}
+
+*, 
+*::before, 
+*::after {
+    box-sizing: inherit;
 }
 
 body {
