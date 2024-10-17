@@ -23,5 +23,11 @@ html {
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: var(--sans);
+    padding: 0;
+    margin: 0;
+}
+
+section {
+    background-color: var(--black);
 }
