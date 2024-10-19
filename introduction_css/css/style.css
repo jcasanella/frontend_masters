@@ -26,8 +26,23 @@ body {
     font-family: var(--sans);
     padding: 0;
     margin: 0;
+    background-color: var(--black);
+    color: var(--white);
+    font-size: var(--font-size);
 }
 
-section {
-    background-color: var(--black);
+h1, h2, h3 {
+    margin: 0;
 }
+
+a {
+    color: var(--magenta);
+}
+a:hover {
+    color: var(--hotmag);
+    text-decoration: none;
+}
+
+/* section {
+    background-color: var(--black);
+} */
