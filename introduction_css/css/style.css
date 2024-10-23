@@ -85,6 +85,16 @@ nav {
     padding: 1rem;
 }
 
+nav [class*="fa-"] {
+    font-size: 150%;
+    color: var(--aqua);
+}
+
+nav h1 [class*="fa-"] {
+    font-size: 100%;
+    color: var(--aqua);
+}
+
 nav ul {
     list-style: none;
     padding: 0;
@@ -98,7 +108,7 @@ nav ul {
 
 nav li:first-child {
     font-family: var(--sans);
-// This will make that the first row to use the full width, maybe, because it is a hint for flex
+    /* This will make that the first row to use the full width, maybe, because it is a hint for flex */
     flex-basis: 100%;
     text-align: center;
 }
@@ -108,6 +118,7 @@ nav a {
     text-decoration: none;
 }
 
-nav a:hover {
+nav a:hover,
+nav [class*="fa-"]:hover {
     color: var(--magenta);
 }
