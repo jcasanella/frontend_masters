@@ -122,3 +122,45 @@ nav a:hover,
 nav [class*="fa-"]:hover {
     color: var(--magenta);
 }
+
+.button {
+    border-radius: 10px;
+    color: var(--white);
+    background-color: var(--magenta);
+    padding: 0.5rem;
+}
+
+.button:hover {
+    color: var(--white);
+    background-color: var(--hotmag);
+}
+
+/* footer */
+footer {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    gap: 3rem;
+    font-size: 3rem;
+}
+
+/* Responsive design */
+@media (min-width: 850px) {
+    nav {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    nav li:first-child {
+        flex-basis: auto;
+        text-align: left;
+        margin-right: auto;
+    }
+}
