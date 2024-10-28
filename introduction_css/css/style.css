@@ -45,7 +45,9 @@ a:hover {
 
 /* Intro styles */
 #intro {
-    padding-bottom: 10rem;
+    padding: 4rem 1rem 10rem 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 #intro p {
     font-size: 1rem;
@@ -54,6 +56,7 @@ a:hover {
 
 #intro .name {
     font-family: var(--mono);
+    font-size: 1rem;
 }
 
 .name span {
@@ -67,9 +70,19 @@ a:hover {
     font-size: 4rem;
 }
 
+/* Backgrounds */
+.section-plum {
+    background-color: var(--plum);
+}
+
+.gradient {
+    background: linear-gradient(90deg, rgba(255,23,228,1) 0%, rgba(134,251,251,1) 100%);
+    height: 2px;
+}
+
 /* Contact styles */
 #contact {
-    background-color: var(--plum);
+    width: 400px;
     text-align: center;
     margin: 0 auto;
     padding: 3rem 0;
@@ -113,11 +126,6 @@ nav li:first-child {
     text-align: center;
 }
 
-nav a {
-    color: var(--white);
-    text-decoration: none;
-}
-
 nav a:hover,
 nav [class*="fa-"]:hover {
     color: var(--magenta);
@@ -128,6 +136,8 @@ nav [class*="fa-"]:hover {
     color: var(--white);
     background-color: var(--magenta);
     padding: 0.5rem;
+    font-family: var(--mono);
+    text-decoration: none;
 }
 
 .button:hover {
@@ -138,7 +148,7 @@ nav [class*="fa-"]:hover {
 /* footer */
 footer {
     text-align: center;
-    margin-top: 1.5rem;
+    padding: 4rem 0;
 }
 
 footer ul {
