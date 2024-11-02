@@ -135,6 +135,10 @@ nav [class*="fa-"]:hover {
     color: var(--magenta);
 }
 
+img {
+    width: 100%;
+}
+
 .button {
     border-radius: 10px;
     color: var(--white);
@@ -224,5 +228,29 @@ footer ul {
         flex-basis: auto;
         text-align: left;
         margin-right: auto;
+    }
+}
+
+@media (min-width: 550px) {
+    article {
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        gap: 1rem;
+    }
+
+    #projects img {
+        grid-column: 1/6;
+        grid-row: 1/2;
+    }
+
+    .text {
+        order: 2;
+        text-align: right;
+        grid-column: 5/11;
+        grid-row: 1/2;
+    }
+
+    #projects ul {
+        justify-content: flex-end;
     }
 }
