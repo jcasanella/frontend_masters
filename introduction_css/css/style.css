@@ -238,6 +238,11 @@ footer ul {
         gap: 1rem;
     }
 
+    #projects {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
     #projects img {
         grid-column: 1/6;
         grid-row: 1/2;
@@ -252,5 +257,21 @@ footer ul {
 
     #projects ul {
         justify-content: flex-end;
+    }
+
+    #projects .reverse .text {
+        grid-column: 1/7;
+        order: 2;
+        text-align: left;
+        grid-row: 1/2;
+    }
+
+    #projects .reverse img {
+        grid-row: 1/2;
+        grid-column: 6/11;
+    }
+
+    #projects .reverse ul {
+        justify-content: flex-start;
     }
 }
