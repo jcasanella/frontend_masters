@@ -99,7 +99,7 @@ a:hover {
 nav {
     font-family: var(--mono);
     font-size: 80%;
-    padding: 1rem;
+    padding: 4rem 1rem;
 }
 
 nav [class*="fa-"] {
@@ -128,6 +128,11 @@ nav li:first-child {
     /* This will make that the first row to use the full width, maybe, because it is a hint for flex */
     flex-basis: 100%;
     text-align: center;
+}
+
+nav a {
+    color: var(--white);
+    text-decoration: none;
 }
 
 nav a:hover,
