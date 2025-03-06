@@ -130,12 +130,19 @@
 
             // TODO 7: Within the event handler function, 
             // Use a for loop to disable all the option buttons
-
+        for(let but of optionButtons) {
+          disable(but);  
+        }
 
             // TODO 8: Within the event handler function,
             // Get the guessed value from the clicked button
             // Use a conditional to compare the guess to the fact's answer
             // and add the "correct"/"incorrect" class as appropriate
+        if (isCorrect(but.value)) {
+          but.classList.add('correct');
+        } else {
+          but.classList.add('incorrect');
+        }
       });
     }
     
