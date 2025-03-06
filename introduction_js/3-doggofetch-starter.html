@@ -97,7 +97,14 @@
     function getMultipleChoices(n, correctAnswer, array) {
         // Use a while loop and the getRandomElement() function
         // Make sure there are no duplicates in the array
+      const elems = new Set();
+      elems.add(correctAnswer);
+      while(elems.length < n) {
+        elems.add(getRandomElement(array));
+      }
 
+      const answer = Array.from(elems);
+      return answer;
     }
 
     
