@@ -127,13 +127,7 @@
     // then parse the response as a JSON object,
     // finally return the "message" property of its body
     async function fetchMessage(url) {
-      const resp = await fetch(url);
-      if(!resp.ok) {
-        throw new Error(`Response status: ${resp.status}`);
-      }
-      const msg = await resp.json();
-      const { message } = msg;
-      return message;
+        
     }
 
 
