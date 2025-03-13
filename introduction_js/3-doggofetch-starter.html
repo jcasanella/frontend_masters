@@ -97,14 +97,15 @@
     function getMultipleChoices(n, correctAnswer, array) {
         // Use a while loop and the getRandomElement() function
         // Make sure there are no duplicates in the array
-      const elems = new Set();
-      elems.add(correctAnswer);
-      while(elems.length < n) {
-        elems.add(getRandomElement(array));
+      const choices = [correctAnswer];
+      while (choices.length < n) {
+        let candidate = getRandomElement(array);
+        if (choices.indexOf(candidate) < 0) {
+          choices.push(candidate);
+        }
       }
 
-      const answer = Array.from(elems);
-      return answer;
+      return shuffleArray(choices);
     }
 
     
@@ -127,7 +128,13 @@
     // then parse the response as a JSON object,
     // finally return the "message" property of its body
     async function fetchMessage(url) {
-        
+      const resp = await fetch(url);
+      if(!resp.ok) {
+        throw new Error(`Response status: ${resp.status}`);
+      }
+      const msg = await resp.json();
+      const { message } = msg;
+      return message;
     }
 
 
@@ -152,7 +159,15 @@
         // Create a button element whose name, value, and textContent properties are the value of that choice,
         // attach a "click" event listener with the buttonHandler function,
         // and append the button as a child of the options element
-        
+      for (let x of choicesArray) { 
+        const button = document.createElement("button");
+        button.name = x;
+        button.value = x;
+        button.textContent = x;
+
+        button.addEventListener('click', buttonHandler);
+        options.appendChild(button);
+      }
     }
 
 
@@ -184,6 +199,8 @@
     // TODO 5
     // Asynchronously call the loadQuizData() function,     
     // Then call renderQuiz() with the returned imageUrl, correctAnswer, and choices 
+    const [imageUrl, correctAnswer, choices] = await loadQuizData();
+    renderQuiz(imageUrl, correctAnswer, choices);
     
     
 
